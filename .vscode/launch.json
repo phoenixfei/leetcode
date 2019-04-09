@@ -1,0 +1,53 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - ArrayLinkedList",
+            "request": "launch",
+            "mainClass": "knowledge.ArrayLinkedList",
+            "projectName": "leetcode"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Test",
+            "request": "launch",
+            "mainClass": "app.Test",
+            "projectName": "leetcode"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - ArraysCollctions",
+            "request": "launch",
+            "mainClass": "knowledge.ArraysCollctions",
+            "projectName": "leetcode"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Knowledge",
+            "request": "launch",
+            "mainClass": "leetcode.Knowledge",
+            "projectName": "leetcode"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - App",
+            "request": "launch",
+            "mainClass": "app.App",
+            "projectName": "leetcode"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - sorting",
+            "request": "launch",
+            "mainClass": "leetcode.sorting",
+            "projectName": "leetcode"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - recursion",
+            "request": "launch",
+            "mainClass": "leetcode.recursion",
+            "projectName": "leetcode"
+        }
+    ]
+}
