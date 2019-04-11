@@ -2,6 +2,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - Basis",
+            "request": "launch",
+            "mainClass": "knowledge.Basis",
+            "projectName": "leetcode"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - DynamicProgarmming",
+            "request": "launch",
+            "mainClass": "leetcode.DynamicProgarmming",
+            "projectName": "leetcode"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - ArrayLinkedList",
             "request": "launch",
             "mainClass": "knowledge.ArrayLinkedList",
