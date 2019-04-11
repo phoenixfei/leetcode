@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - ArrayString",
+            "request": "launch",
+            "mainClass": "tencent.ArrayString",
+            "projectName": "leetcode"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - Basis",
             "request": "launch",
             "mainClass": "knowledge.Basis",

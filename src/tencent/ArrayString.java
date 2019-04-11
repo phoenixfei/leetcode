@@ -42,6 +42,6 @@ public class ArrayString {
         }
     }
     public static void main(String[] args) {
-        
+        System.out.println("test");
     }
 }
