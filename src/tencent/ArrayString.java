@@ -3,6 +3,7 @@ package tencent;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 
 /**
  * ArrayString
@@ -85,6 +86,75 @@ public class ArrayString {
         if (flag == 1) return dight > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int)dight;
             return -dight <= Integer.MIN_VALUE ? Integer.MIN_VALUE : -(int)dight;
     }
+    // https://leetcode.com/problems/longest-common-prefix/
+    public String longestCommonPrefix(String[] strs) {
+        if(strs.length == 0) return "";
+        int i = 0;
+        boolean flag = true;
+        try {
+            while(flag){
+                char temp = strs[0].charAt(i);
+                for (String str : strs) {
+                    if(str.charAt(i) != temp){
+                        flag = false;
+                        break;
+                    }
+                }
+                if(flag) i++;
+            }
+        } catch (IndexOutOfBoundsException e) {
+        }
+        if(i <= 0) return "";
+        return strs[0].substring(0,i);
+    }
+    // 解法2，注意for加while循环，里面的while循环的结束条件
+    public String longestCommonPrefix2(String[] strs) {
+        if (strs.length < 1 || strs == null) {
+            return "";
+        }
+        if (strs.length == 1) {
+            return strs[0];
+        }
+        //find the shortest String
+        int shortest = 0;
+        int len = strs[0].length();
+        for (int i = 1; i < strs.length; i++) {
+            int curLen = strs[i].length();
+            if (curLen < len) {
+                len = curLen;
+                shortest = i;
+            }
+        }
+        //find the longest common prefix
+        String sub = strs[shortest];
+        for (int i = 0; i < strs.length; i++) {
+            while (strs[i].indexOf(sub) != 0) {
+                sub = sub.substring(0, sub.length()-1);
+            }
+        } 
+        return sub;
+    }
+
+    public boolean isValid(String s) {
+        char[] arr = s.toCharArray();
+        Stack<Character> stack = new Stack<Character>();
+        for (char c: arr) {
+            if(stack.isEmpty()){
+                stack.push(c);
+            }else{
+                char top = stack.peek();
+                if(c - top == 1 || c - top == 2){
+                    stack.pop();
+                }else{
+                    stack.push(c);
+                }
+            }
+        }
+        if(stack.isEmpty()) return true;
+        return false;
+    }
+
+    
     public static void main(String[] args) {
 
     }

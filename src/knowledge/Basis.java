@@ -73,7 +73,9 @@ public class Basis {
         // swap2(15, 1);
         // swap3(15, 1);
         // swap3(2, 2);
+        System.out.println(Integer.MIN_VALUE - 2);
         System.out.println(Integer.MIN_VALUE);
         System.out.println(Integer.MAX_VALUE);
+        System.out.println(Integer.MAX_VALUE + 2);
     }
 }
