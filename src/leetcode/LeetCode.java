@@ -247,7 +247,50 @@ class Leetcode {
         }
         return ret;
     }
-
+    // https://leetcode.com/problems/trapping-rain-water/
+    /**
+     Approach 1: Brute force
+     Do as directed in question. For each element in the array, we find the maximum level of water it can trap after the rain, which is equal to the minimum of maximum height of bars on both the sides minus its own height.
+     */
+    public int trap(int[] height) {
+        int ret = 0;
+        for (int i = 0; i < height.length; i++) {
+            int left_max = 0, right_max = 0;
+            for(int j = i; j>=0; j--){
+                left_max = Math.max(left_max, height[j]);
+            }
+            for (int k = i; k < height.length; k++) {
+                right_max = Math.max(right_max, height[k]);
+            }
+            ret += Math.min(left_max, right_max) - height[i];
+        }
+        return ret;
+    }
+    /**
+     Approach 2: Dynamic Programming
+     In brute force, we iterate over the left and right parts again and again just to find the highest bar size upto that index. But, this could be stored. Voila, dynamic programming.
+     */
+    public int trapDP(int[] height) {
+        // 请写上null与长度的判断
+        if(height == null || height.length <= 1) return 0;
+        int ret = 0;
+        int len = height.length;
+        int[] left_max = new int[len];
+        int[] right_max = new int[len];
+        left_max[0] = height[0];
+        right_max[len-1] = height[len-1];
+        // 可以都写i循环，除非内部循环
+        for (int i = 1; i < len; i++) {
+            left_max[i] = Math.max(left_max[i-1], height[i]);
+        }
+        for (int j = len - 2; j >= 0; --j) {
+            right_max[j] = Math.max(right_max[j+1], height[j]);
+        }
+        for (int k = 0; k < len; k++) {
+            ret += Math.min(left_max[k], right_max[k]) - height[k];
+        }
+        return ret;
+    }
     public static void main(String[] args) {
         Leetcode leetcode = new Leetcode();
         int[] nums = { -3, -2, 5, 7 };
