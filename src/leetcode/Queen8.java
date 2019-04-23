@@ -61,7 +61,7 @@ public class Queen8 {
     }
 
     public static void main(String args[]) {
-        Queen8 queen = new Queen8();
+        new Queen8();
     }
 
 }
