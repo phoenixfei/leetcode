@@ -153,7 +153,32 @@ public class ArrayString {
         if(stack.isEmpty()) return true;
         return false;
     }
-
+    // https://leetcode.com/problems/merge-sorted-array/
+    // while(n>0) A[m+n-1] = (m==0||B[n-1] > A[m-1]) ? B[--n] : A[--m];
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        int[] ret = new int[nums1.length];
+        int i = 0, j = 0, k = 0;
+        while(i<=m-1 && j<=n-1){
+            if(nums1[i] < nums2[j]){
+                ret[k++] = nums1[i++];
+            }else{
+                ret[k++] = nums2[j++];
+            }
+        }
+        while (i <= m-1) {
+            ret[k++] = nums1[i++];
+        }
+        while (j <= n-1) {
+            ret[k++] = nums2[j++];
+        }
+        // System.out.println(Arrays.toString(ret));
+        // 对数组进行赋值
+        System.arraycopy(ret, 0, nums1, 0, ret.length);
+        // k = 0;
+        // while(k < nums1.length){
+        //     nums1[k++] = ret[k++];
+        // }
+    }
     
     public static void main(String[] args) {
 

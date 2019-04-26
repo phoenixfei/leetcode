@@ -66,6 +66,16 @@ public class Basis {
         a ^= b;
         System.out.println("交换后，a=" + a + ",b=" + b);
     }
+
+    public static void arrPlus() {
+        int[] arr = {1,2,3};
+        int i = 0;
+        System.out.println(arr[++i]);
+        System.out.println(i);
+        int j = 0;
+        System.out.println(arr[j++]);
+        System.out.println(j);
+    }
     public static void main(String[] args) {
         // initArr();
         // addEqu();
@@ -73,9 +83,12 @@ public class Basis {
         // swap2(15, 1);
         // swap3(15, 1);
         // swap3(2, 2);
-        System.out.println(Integer.MIN_VALUE - 2);
-        System.out.println(Integer.MIN_VALUE);
-        System.out.println(Integer.MAX_VALUE);
-        System.out.println(Integer.MAX_VALUE + 2);
+
+        // System.out.println(Integer.MIN_VALUE - 2);
+        // System.out.println(Integer.MIN_VALUE);
+        // System.out.println(Integer.MAX_VALUE);
+        // System.out.println(Integer.MAX_VALUE + 2);
+
+        arrPlus();
     }
 }

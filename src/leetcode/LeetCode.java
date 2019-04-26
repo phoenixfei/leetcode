@@ -3,7 +3,10 @@ package leetcode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
+import java.util.Map;
 
 class Leetcode {
     // https://leetcode.com/problems/container-with-most-water/
@@ -288,6 +291,24 @@ class Leetcode {
         }
         for (int k = 0; k < len; k++) {
             ret += Math.min(left_max[k], right_max[k]) - height[k];
+        }
+        return ret;
+    }
+    // https://leetcode.com/problems/majority-element/solution/
+    public int majorityElement(int[] nums) {
+        int ret = 0;
+        int half = nums.length / 2;
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; ++i) {
+            if(map.containsKey(nums[i])){
+                map.put(nums[i], map.get(nums[i]) + 1);
+            }else{
+                map.put(nums[i], 1);
+            }
+        }
+        Set<Integer> keys = map.keySet();
+        for (int key : keys) {
+            if(map.get(key) > half) ret = key;
         }
         return ret;
     }
