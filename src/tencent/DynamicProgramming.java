@@ -35,4 +35,15 @@ public class DynamicProgramming {
         }
         return maxVal;
     }
+
+    // https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/
+    public int maxProfit2(int[] prices) {
+        int maxVal = 0;
+        for (int i = 1; i < prices.length; i++) {
+            if(prices[i] > prices[i-1]){
+                maxVal += prices[i] - prices[i-1];
+            }
+        }
+        return maxVal;
+    }
 }
