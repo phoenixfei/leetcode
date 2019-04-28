@@ -1,7 +1,9 @@
 package tencent;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
@@ -178,6 +180,33 @@ public class ArrayString {
         // while(k < nums1.length){
         //     nums1[k++] = ret[k++];
         // }
+    }
+    // https://leetcode.com/problems/spiral-matrix/
+    public List<Integer> spiralOrder(int[][] matrix) {
+        List<Integer> ret = new ArrayList<Integer>();
+        // 注意极端情况判断，需return ret，而不是null。
+        if(matrix.length == 0) return ret;
+        int m = matrix.length, n = matrix[0].length;
+        int r1 = 0, c1 = 0, r2 = m - 1, c2 = n - 1;
+        while (r1 <= r2 && c1 <= c2) {
+            for(int i = c1; i <= c2; i++){
+                ret.add(matrix[r1][i]);
+            }
+            for(int i = r1+1; i <= r2; i++){
+                ret.add(matrix[i][c2]);
+            }
+            // 需要进行判断
+            if(r1 < r2 && c1 < c2){
+                for (int i = c2-1; i >= c1; --i) {
+                    ret.add(matrix[r2][i]);
+                }
+                for (int i = r2-1; i > r1; --i) {
+                    ret.add(matrix[i][c1]);
+                }
+            }
+            r1++; c1++; r2--; c2--;
+        }
+        return ret;
     }
     
     public static void main(String[] args) {
