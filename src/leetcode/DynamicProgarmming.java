@@ -148,4 +148,52 @@ public class DynamicProgarmming {
         
      */
 
+    // test https://github.com/CyC2018/CS-Notes/blob/master/notes/Leetcode%20%E9%A2%98%E8%A7%A3%20-%20%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92.md
+    // https://leetcode.com/problems/house-robber/description/
+    public int rob(int[] nums) {
+        if(nums.length == 0) return 0;
+        if(nums.length == 1) return nums[0];
+        // 长度设为nums.length吧，便于阅读
+        int[] dp = new int[nums.length + 1]; 
+        dp[1] = nums[0];
+        dp[2] = nums[0] > nums[1] ? nums[0] : nums[1];
+        for (int i = 2; i < nums.length; i++) {
+            dp[i+1] = Math.max(dp[i], dp[i-1]+nums[i]);
+        }
+        return dp[nums.length];
+    }
+    public int rob2(int[] nums) {
+        int pre_1 = 0, pre_2 = 0, cur = 0;
+        for (int i = 0; i < nums.length; i++) {
+            cur = Math.max(pre_1, pre_2+nums[i]);
+            pre_2 = pre_1;
+            pre_1 = cur;
+        }
+        return pre_1;
+    }
+    // https://leetcode.com/problems/house-robber-ii/description/
+    public int robCicle(int[] nums) {
+        if(nums == null || nums.length == 0) return 0;
+        if(nums.length == 1) return nums[0];
+        if(nums.length == 2) return Math.max(nums[0], nums[1]);
+        return Math.max(rob(nums, 0, nums.length-1), rob(nums, 1, nums.length));
+    }
+    private int rob(int[] nums, int left, int right) {
+        int pre_1 = 0, pre_2 = 0, cur = 0;
+        for (int i = left; i < right; i++) {
+            cur = Math.max(pre_1, pre_2+nums[i]);
+            pre_2 = pre_1;
+            pre_1 = cur;
+        }
+        return pre_1;
+    }
+    // https://www.jianshu.com/p/60f0fe058ce8
+    public static int errorEnvelopeNum(int n) {
+        if(n <= 1) return 0;
+        if(n == 2) return 1;
+        return (n-1)*(errorEnvelopeNum(n-2)+errorEnvelopeNum(n-1));
+    }
+    public static void main(String[] args) {
+        System.out.println(errorEnvelopeNum(4));
+    }
 }
