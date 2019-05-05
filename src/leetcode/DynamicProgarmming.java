@@ -1,6 +1,8 @@
 package leetcode;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * DynamicProgarmming
@@ -149,6 +151,23 @@ public class DynamicProgarmming {
      */
 
     // test https://github.com/CyC2018/CS-Notes/blob/master/notes/Leetcode%20%E9%A2%98%E8%A7%A3%20-%20%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92.md
+    /* 以下题目类型属于斐波那契数列问题，包括上述的两题 */
+    // https://leetcode.com/problems/climbing-stairs/
+    public int climbStairs(int n) {
+        if(n == 1 || n == 2) return n;
+        int[] arr = new int[n+1];
+        arr[1] = 1;
+        arr[2] = 2;
+        return climb(n, arr);
+    }
+    public int climb(int n, int[] arr) {
+        if(arr[n] != 0){
+            return arr[n];
+        }else{
+            arr[n] = climb(n-1, arr) + climb(n-2, arr);
+            return arr[n];
+        }
+    }
     // https://leetcode.com/problems/house-robber/description/
     public int rob(int[] nums) {
         if(nums.length == 0) return 0;
@@ -192,6 +211,125 @@ public class DynamicProgarmming {
         if(n <= 1) return 0;
         if(n == 2) return 1;
         return (n-1)*(errorEnvelopeNum(n-2)+errorEnvelopeNum(n-1));
+    }
+    /**
+     题目描述：假设农场中成熟的母牛每年都会生 1 头小母牛，并且永远不会死。第一年有 1 只小母牛，从第二年开始，母牛开始生小母牛。每只小母牛 3 年之后成熟又可以生小母牛。给定整数 N，求 N 年后牛的数量。
+     第 i 年成熟的牛的数量为： dp[i] = dp[i-1] + dp[i-3]
+     */
+
+    /* 菲波那切数列问题结束，以下是 矩阵路径 问题 */
+    // 矩阵的最小路径和 https://leetcode.com/problems/minimum-path-sum/
+    public int minPathSum(int[][] grid) {
+        if(grid.length == 0) return 0;
+        int m = grid.length, n = grid[0].length;
+        int[] dp = new int[n]; // 记录每一列的最小路径；行由for循环控制，循环利用该数组
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if(j == 0) dp[j] = dp[j]; // 只能由上一行走下来
+                else if(i == 0) dp[j] = dp[j-1]; // 只能由左侧走过来
+                else dp[j] = Math.min(dp[j-1], dp[j]); // 去左侧、上一行的最小值
+                dp[j] += grid[i][j];
+            }
+        }
+        return dp[n-1];
+    }
+    // https://leetcode.com/problems/unique-paths/
+    public int uniquePaths(int m, int n) {
+        int[] dp = new int[n];
+        Arrays.fill(dp, 1);
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                dp[j] = dp[j-1] + dp[j];
+            }
+        }
+        return dp[n-1];
+    }
+    /*
+    上述问题也可以看作是组合问题。机器人总共移动的次数S = M + N - 2，向下移动了D = m - 1，那么问题可以看成从S中取出D个位置的组合数量，这个问题的解为C(S, D)
+     */
+    public int uniquePaths2(int m, int n) {
+        int S = m + n - 2;  // 总共的移动次数
+        int D = m - 1;      // 向下的移动次数
+        long ret = 1; // 避免溢出
+        for (int i = 1; i <= D; i++) {
+            ret = ret * (S - D + i) / i;
+        }
+        return (int) ret;
+    }
+
+    /* 矩阵路径 问题结束，以下是 数组区间 问题 */
+    // 数组区间和 https://leetcode.com/problems/range-sum-query-immutable/
+    // 数组中等差递增子区间的个数 https://leetcode.com/problems/arithmetic-slices/
+    public int numberOfArithmeticSlices(int[] A) {
+        if(A.length <= 2) return 0;
+        int n = A.length;
+        int[] dp = new int[n]; // dp[i]表示 以i为结尾 的递增数列个数
+        for (int i = 2; i < n; i++) {
+            if(A[i]-A[i-1] == A[i-1]-A[i-2]){
+                dp[i] = dp[i-1] + 1;
+            }
+        }
+        int total = 0;
+        for (int i = 0; i < n; i++) {
+            total += dp[i];
+        }
+        return total;
+    }
+    /* 分割整数问题 */
+    // https://leetcode.com/problems/integer-break/
+    public int integerBreak(int n) {
+        int[] dp = new int[n+1];
+        dp[1] = 1;
+        for (int i = 2; i < n+1; i++) {
+            for (int j = 1; j < i; j++) {
+                dp[i] = Math.max(dp[i], Math.max(dp[i-j]*j, j*(i-j)));
+            }
+        }
+        return dp[n];
+    }
+    /* 综合上下两题，总结，动态规划有时候就是最笨的方法，只是存储了之前的计算结果 */
+    // https://leetcode.com/problems/perfect-squares/
+    public int numSquares(int n) {
+        List<Integer> squareNumberList = squareNumberGenerator(n);
+        int[] dp = new int[n+1];
+        dp[0] = 0;
+        int min = Integer.MAX_VALUE;
+        for (int i = 1; i < n+1; i++) {
+            min = Integer.MAX_VALUE;
+            for (int squareNumber : squareNumberList) {
+                if(squareNumber > i) break;
+                min = Math.min(dp[i-squareNumber]+1, min);
+            }
+            dp[i] = min;
+        }
+        return dp[n];
+    }
+    // 产生完全平方数，小于等于n
+    private List<Integer> squareNumberGenerator(int n) {
+        List<Integer> squareNumberList = new ArrayList<>();
+        int squareNumber = 1, diff = 3;
+        while(squareNumber <= n){
+            squareNumberList.add(squareNumber);
+            squareNumber += diff;
+            diff += 2;
+        }
+        return squareNumberList;
+    }
+    // https://leetcode.com/problems/decode-ways/
+    public int numDecodings(String s) {
+        int len = s.length();
+        int[] dp = new int[len + 1];
+        dp[0] = 1;
+        dp[1] = s.charAt(0) == '0' ? 0 : 1;
+        int lastOne = 0, lastTwo = 0;
+        for (int i = 2; i < len+1; i++) {
+            lastOne = Integer.parseInt(s.substring(i-1, i));
+            if(lastOne != 0) dp[i] += dp[i-1];
+            if(s.charAt(i-2) == '0') continue;
+            lastTwo = Integer.parseInt(s.substring(i-2, i));
+            if(lastTwo <= 26) dp[i] += dp[i-2];
+        }
+        return dp[len];
     }
     public static void main(String[] args) {
         System.out.println(errorEnvelopeNum(4));

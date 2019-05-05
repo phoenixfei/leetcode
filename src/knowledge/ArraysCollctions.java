@@ -8,6 +8,11 @@ import java.util.Comparator;
 /**
  *  Collections 工具类常用方法:
     1.排序
+        下述三个方法都可以；此时o1和o2是引用类型变量；对于基本数据类型int，直接使用减号即可。
+            查看源码可以发现，compareTo与compare都是Integer方法，只不过compare还是静态方法
+            eturn o2.intValue() - o1.intValue();
+            Integer.compare(o1.intValue(), o2.intValue());
+            o2.compareTo(o1);
     2.查找,替换操作
     3.同步控制(不推荐，需要线程安全的集合类型时请考虑使用 JUC 包下的并发集合)
  */
