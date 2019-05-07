@@ -4,24 +4,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Stack;
 
-class ListNode {
-    int val;
-    ListNode next;
-
-    ListNode(int x) {
-        val = x;
-    }
-}
-class TreeNode {
-    int val;
-    TreeNode left;
-    TreeNode right;
-
-    TreeNode(int x) {
-        val = x;
-    }
-}
-
 public class Node {
 
         // https://leetcode.com/problems/remove-nth-node-from-end-of-list/

@@ -1,16 +1,9 @@
 package tencent;
 
+
 /**
  * SortAndSearch
  */
-class ListNode {
-    int val;
-    ListNode next;
-
-    ListNode(int x) {
-        val = x;
-    }
-}
 
 public class SortAndSearch {
     // https://leetcode.com/problems/sort-list/
@@ -74,5 +67,18 @@ public class SortAndSearch {
         }
         return ret.next;
     }
-
+    // https://leetcode.com/problems/kth-largest-element-in-an-array/
+    public int findKthLargest(int[] nums, int k) {
+        for (int i = 0; i < k; i++) {
+            // 冒泡排序的内部循环，是从前面遍历整个数组，到后面少i个元素
+            for (int j = 0; j < nums.length-i-1; j++) {
+                if(nums[j] > nums[j+1]) {
+                    int temp = nums[j];
+                    nums[j] = nums[j+1];
+                    nums[j+1] = temp;
+                }
+            }
+        }
+        return nums[nums.length-k];
+    }
 }

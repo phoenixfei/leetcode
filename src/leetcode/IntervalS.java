@@ -7,26 +7,7 @@ import java.util.List;
 /**
  * Interval
  */
-public class Interval {
-
-    int start;
-    int end;
-
-    Interval() {
-        start = 0;
-        end = 0;
-    }
-
-    Interval(int s, int e) {
-        start = s;
-        end = e;
-    }
-
-}
-/**
- * IntervalProblems
- */
-class IntervalProblems {
+public class IntervalS {
     
     // https://leetcode.com/problems/insert-interval/
     public List<Interval> insert(List<Interval> intervals, Interval newInterval) {
