@@ -9,4 +9,5 @@ public class Game {
     public boolean canWinNim(int n) {
         return n % 4 != 0;
     }
+    // test
 }
