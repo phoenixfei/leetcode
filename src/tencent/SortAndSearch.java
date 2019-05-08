@@ -1,16 +1,13 @@
 package tencent;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Stack;
+
 /**
  * SortAndSearch
  */
-class ListNode {
-    int val;
-    ListNode next;
-
-    ListNode(int x) {
-        val = x;
-    }
-}
 
 public class SortAndSearch {
     // https://leetcode.com/problems/sort-list/
@@ -74,5 +71,64 @@ public class SortAndSearch {
         }
         return ret.next;
     }
-
+    // https://leetcode.com/problems/kth-largest-element-in-an-array/
+    public int findKthLargest(int[] nums, int k) {
+        for (int i = 0; i < k; i++) {
+            // 冒泡排序的内部循环，是从前面遍历整个数组，到后面少i个元素
+            for (int j = 0; j < nums.length-i-1; j++) {
+                if(nums[j] > nums[j+1]) {
+                    int temp = nums[j];
+                    nums[j] = nums[j+1];
+                    nums[j+1] = temp;
+                }
+            }
+        }
+        return nums[nums.length-k];
+    }
+    // https://leetcode.com/problems/kth-smallest-element-in-a-bst/comments/
+    public int kthSmallest(TreeNode root, int k) {
+        List<Integer> valList = new ArrayList<>();
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode curNode = root;
+        while (curNode != null || !stack.isEmpty()) {
+            while(curNode != null){
+                valList.add(curNode.val);
+                stack.push(curNode);
+                curNode = curNode.left;
+            }
+            curNode = stack.pop().right;
+        }
+        Collections.sort(valList);
+        return valList.get(k-1);
+    }
+    // https://leetcode.com/problems/maximum-depth-of-binary-tree/
+    public int maxDepth(TreeNode root) {
+        if(root == null) return 0;
+        Stack<TreeNode> stack = new Stack<>();
+        Stack<Integer> maxDepth = new Stack<>();
+        TreeNode curNode = root;
+        stack.push(root);
+        maxDepth.push(1);
+        int max = 0, depth = 0;
+        while (!stack.isEmpty()) {
+            curNode = stack.pop();
+            depth = maxDepth.pop();
+            if(curNode.left == null && curNode.right == null) {
+                max = Math.max(depth, max);
+            }
+            if(curNode.left != null){
+                stack.push(curNode.left);
+                maxDepth.push(depth+1);
+            }
+            if(curNode.right != null){
+                stack.push(curNode.right);
+                maxDepth.push(depth+1);
+            }
+        }
+        return max;
+    }
+    public int maxDepthByRecursion(TreeNode root) {
+        if(root == null) return 0;
+        return 1 + Math.max(maxDepthByRecursion(root.left), maxDepthByRecursion(root.right));
+    }
 }

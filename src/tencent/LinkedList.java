@@ -7,12 +7,6 @@ import java.util.ArrayList;
  */
 public class LinkedList {
 
-    public class ListNode {
-        int val;
-        ListNode next;
-        ListNode(int x) { val = x; }
-    }
-
     // https://leetcode.com/problems/reverse-linked-list/
     public ListNode reverseList(ListNode head) {
         if(head == null) return null;
@@ -59,5 +53,38 @@ public class LinkedList {
         }
         if(flag != 0) ret.next = new ListNode(flag);
         return result.next;
+    }
+    // https://leetcode.com/problems/merge-two-sorted-lists/
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        if(l1 == null) return l2;
+        if(l2 == null) return l1;
+        ListNode cur = new ListNode(0);
+        ListNode ret = cur;
+        while(l1 != null && l2 != null){
+            if(l1.val < l2.val) {
+                cur.next = new ListNode(l1.val);
+                l1 = l1.next;
+            } else {
+                cur.next = new ListNode(l2.val);
+                l2 = l2.next;
+            }
+            cur = cur.next;
+        }
+        while(l1 != null){
+            cur.next = new ListNode(l1.val);
+            l1 = l1.next;
+            cur = cur.next;
+        }
+        while(l2 != null){
+            cur.next = new ListNode(l2.val);
+            l2 = l2.next;
+            cur = cur.next;
+        }
+        return ret.next;
+    }
+    // https://leetcode.com/problems/delete-node-in-a-linked-list/
+    public void deleteNode(ListNode node) {
+        node.val = node.next.val;
+        node.next = node.next.next;
     }
 }

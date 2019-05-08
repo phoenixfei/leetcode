@@ -4,9 +4,9 @@ import java.util.Arrays;
 
 /**
  * 注意，java是值引用，所以不要使用返回值，直接对数组对象进行修改即可。
- * sorting
+ * Sorting https://www.cnblogs.com/onepixel/articles/7674659.html
  */
-public class sorting {
+public class Sorting {
     //冒泡排序
     //i循环控制已排序的个数，j循环控制参与排序的元素，由于有j+1，故if判断中-1-i
     public static void bubble(int[] arr) {
@@ -33,6 +33,21 @@ public class sorting {
             arr[pre_index] = current;
         }
     }
+    // 希尔排序 https://www.cnblogs.com/chengxiao/p/6104371.html
+    // 子排序问题请仔细阅读第二层for循环
+    public static void shell(int[] arr) {
+        int len = arr.length;
+        int j = 0;
+        for (int step = len/2; step > 0; step/=2) {
+            for (int i = step; i < len; i++) {
+                j = i;
+                while(j-step >= 0 && arr[j] < arr[j-step]){
+                    swap(arr,j, j-step);
+                    j -= step;
+                }
+            }
+        }
+    }
     //快速排序
     public static void quick(int [] arr, int left, int right) {
         if(left >= right-1)return;
@@ -55,6 +70,7 @@ public class sorting {
         arr[b_index] ^= arr[a_index];
         arr[a_index] ^= arr[b_index];
     }
+    // 归并排序
     public static void merge(int[] arr, int[] temp, int left, int right) {
         // 在排序前，先建好一个长度等于原数组长度的临时数组，避免递归中频繁开辟空间
         // sort arr
@@ -81,12 +97,13 @@ public class sorting {
 
     public static void main(String[] args) {
         int[] arr = {3,44,38,5,47,15,36,26,27,2,46,4,19,50,48};
-        int[] temp = new int[arr.length];
+        // int[] temp = new int[arr.length];
         //插入
         // insertion(arr);
         // System.out.println(Arrays.toString(arr));
         // quick(arr, 0, arr.length);
-        merge(arr, temp, 0, arr.length);
+        // merge(arr, temp, 0, arr.length);
+        shell(arr);
         System.out.println(Arrays.toString(arr));
     }
 }

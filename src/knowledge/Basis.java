@@ -23,11 +23,17 @@ public class Basis {
         int ret = 111, ret2 = 3;
         int count = 2;
         System.out.println(count>>1);
-        // int c = count>>1;
+        // + 的运算优先级高于 >>
         ret = ret + count>>1;
         ret2 += count>>1;
         System.out.println(ret);
         System.out.println(ret2);
+
+        // https://stackoverflow.com/questions/7456462/what-does-the-operator-do-in-java/7456548
+        // 复合赋值表达式自动将它们执行的计算结果转换为左侧变量的类型。
+        int x = 0;
+        x += 1.1;
+        System.out.println(x);
     }
     /**
      * 交换两个数的三种方法使用总结
@@ -78,7 +84,7 @@ public class Basis {
     }
     public static void main(String[] args) {
         // initArr();
-        // addEqu();
+        addEqu();
         // swap(15, 1);
         // swap2(15, 1);
         // swap3(15, 1);
@@ -89,6 +95,6 @@ public class Basis {
         // System.out.println(Integer.MAX_VALUE);
         // System.out.println(Integer.MAX_VALUE + 2);
 
-        arrPlus();
+        // arrPlus();
     }
 }
