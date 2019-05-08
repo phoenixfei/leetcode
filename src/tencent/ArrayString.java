@@ -1,7 +1,9 @@
 package tencent;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
@@ -179,8 +181,29 @@ public class ArrayString {
         //     nums1[k++] = ret[k++];
         // }
     }
-    
-    public static void main(String[] args) {
+    // 
+    public List<Integer> spiralOrder(int[][] matrix) {
+        List<Integer> ret = new ArrayList<>();
+        if(matrix == null || matrix.length == 0) return ret;
+        int m = matrix.length, n = matrix[0].length;
+        int cur_m = 0, cur_n = 0;
+        int flag = 0; // 行
+        while (m != 0 || n != 0) {
+            if(flag == 0){
+                if(cur_n != n - 1){
+                    for (int i = 0; i < n; i++) {
+                        ret.add(matrix[cur_m][i]);
+                    }
+                    flag = 1;
+                }
+            }else{
 
+            }
+        }
+        return ret;
+    }
+
+    public static void main(String[] args) {
+        
     }
 }
