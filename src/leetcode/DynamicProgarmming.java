@@ -8,7 +8,9 @@ import java.util.List;
  * DynamicProgarmming
  * Those who cannot remember the past are condemned to repeat it.
  * https://blog.csdn.net/u013309870/article/details/75193592
- * 动态规划的核心是记住以往求过的解：1.自顶向下的备忘录法；2.自底向上的动态规划
+ * 动态规划的本质是去除递归的冗余计算，来大幅提高自己的性能，降低复杂度。
+ * 递归是自顶向下的，动归是自底向上的，然后，把缓存冗余的计算结果的计算过程，变成自底向上的过程，就变成符合动归格式的代码了。
+ * 1.自顶向下的备忘录法；2.自底向上的动态规划
  * 下述以斐波拉契数列为例，给出递归、动态规划的解法。
  *  Fibonacci (n) = 0;   n = 0
 

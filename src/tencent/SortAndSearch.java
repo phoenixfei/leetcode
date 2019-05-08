@@ -1,5 +1,9 @@
 package tencent;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Stack;
 
 /**
  * SortAndSearch
@@ -80,5 +84,51 @@ public class SortAndSearch {
             }
         }
         return nums[nums.length-k];
+    }
+    // https://leetcode.com/problems/kth-smallest-element-in-a-bst/comments/
+    public int kthSmallest(TreeNode root, int k) {
+        List<Integer> valList = new ArrayList<>();
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode curNode = root;
+        while (curNode != null || !stack.isEmpty()) {
+            while(curNode != null){
+                valList.add(curNode.val);
+                stack.push(curNode);
+                curNode = curNode.left;
+            }
+            curNode = stack.pop().right;
+        }
+        Collections.sort(valList);
+        return valList.get(k-1);
+    }
+    // https://leetcode.com/problems/maximum-depth-of-binary-tree/
+    public int maxDepth(TreeNode root) {
+        if(root == null) return 0;
+        Stack<TreeNode> stack = new Stack<>();
+        Stack<Integer> maxDepth = new Stack<>();
+        TreeNode curNode = root;
+        stack.push(root);
+        maxDepth.push(1);
+        int max = 0, depth = 0;
+        while (!stack.isEmpty()) {
+            curNode = stack.pop();
+            depth = maxDepth.pop();
+            if(curNode.left == null && curNode.right == null) {
+                max = Math.max(depth, max);
+            }
+            if(curNode.left != null){
+                stack.push(curNode.left);
+                maxDepth.push(depth+1);
+            }
+            if(curNode.right != null){
+                stack.push(curNode.right);
+                maxDepth.push(depth+1);
+            }
+        }
+        return max;
+    }
+    public int maxDepthByRecursion(TreeNode root) {
+        if(root == null) return 0;
+        return 1 + Math.max(maxDepthByRecursion(root.left), maxDepthByRecursion(root.right));
     }
 }
