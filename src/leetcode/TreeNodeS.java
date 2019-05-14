@@ -5,12 +5,10 @@ import java.util.List;
 import java.util.Stack;
 
 /**
- * TreeNode
+ * TreeNode 树树树树树树树 https://www.jianshu.com/p/456af5480cee
  */
-public class TreeNode {
+public class TreeNodeS {
 
-    // *********** 树树树树树树树 **************** */
-    // https://www.jianshu.com/p/456af5480cee
     // 递归实现先序遍历，同理可实现中序、后序遍历问题，只要主要输出val的位置即可
     public static void recursionPreorderTravesal(TreeNode root) {
         if (root != null) {
