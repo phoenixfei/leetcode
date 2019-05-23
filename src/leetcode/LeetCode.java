@@ -3,6 +3,7 @@ package leetcode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.Map;
@@ -249,6 +250,47 @@ class Leetcode {
         }
         return ret;
     }
+    // https://leetcode.com/problems/longest-harmonious-subsequence/
+    public int findLHS(int[] nums) {
+        Map<Integer, Integer> countForNum = new HashMap<>();
+        for (int num : nums) {
+            countForNum.put(num, countForNum.getOrDefault(num, 0) + 1);
+        }
+        int longest = 0;
+        for (int num : countForNum.keySet()) {
+            if (countForNum.containsKey(num + 1)) {
+                longest = Math.max(longest, countForNum.get(num + 1) + countForNum.get(num));
+            }
+        }
+        return longest;
+    }
+
+    // https://leetcode.com/problems/longest-consecutive-sequence/
+    public int longestConsecutive(int[] nums) {
+        Set<Integer> num_set = new HashSet<Integer>();
+        for (int num : nums) {
+            num_set.add(num);
+        }
+
+        int longestStreak = 0;
+
+        for (int num : num_set) {
+            if (!num_set.contains(num - 1)) {
+                int currentNum = num;
+                int currentStreak = 1;
+
+                while (num_set.contains(currentNum + 1)) {
+                    currentNum += 1;
+                    currentStreak += 1;
+                }
+
+                longestStreak = Math.max(longestStreak, currentStreak);
+            }
+        }
+
+        return longestStreak;
+    }
+    
     public static void main(String[] args) {
         Leetcode leetcode = new Leetcode();
         int[] nums = { -3, -2, 5, 7 };

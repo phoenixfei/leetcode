@@ -1,7 +1,9 @@
 package leetcode;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Stack;
 
 /**
@@ -87,16 +89,55 @@ public class TreeNodeS {
         return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
     }
 
+    // https://leetcode.com/problems/minimum-depth-of-binary-tree/
+    public int minDepth(TreeNode root) {
+        if(root == null) return 0;
+        int left = minDepth(root.left);
+        int right = minDepth(root.right);
+        if(left == 0 || right == 0) return left + right + 1;
+        return Math.min(left, right) + 1;
+    }
+
+    // 左叶子之和 https://leetcode.com/problems/sum-of-left-leaves/
+    public int sumOfLeftLeaves(TreeNode root) {
+        if (root == null) return 0; 
+        if(isLeaf(root.left)) 
+            return root.left.val + sumOfLeftLeaves(root.right);
+        return sumOfLeftLeaves(root.left) + sumOfLeftLeaves(root.right);
+    }
+
+    private boolean isLeaf(TreeNode node){
+        if (node == null) return false;
+        return node.left == null && node.right == null;
+    }
+
+    // 最长同值路径 https://leetcode.com/problems/longest-univalue-path/
+    public int longest = 0;
+
+    public int longestUnivaluePath(TreeNode root) {
+        longestRecur(root);
+        return longest;
+    }
+
+    public int longestRecur(TreeNode root) {
+        if(root == null) return 0;
+        int left = longestRecur(root.left);
+        int right = longestRecur(root.right);
+        int leftPath = (root.left != null && root.left.val == root.val) ? left + 1 : 0;
+        int rightPath = (root.right != null && root.right.val == root.val) ? right + 1 : 0;
+        longest = Math.max(longest, leftPath + rightPath);
+        return Math.max(leftPath, rightPath);
+    }
     /**
      * https://leetcode.com/problems/balanced-binary-tree/ 给定一个二叉树，判断它是否是高度平衡的二叉树。
      * 本题中，一棵高度平衡二叉树定义为：一个二叉树每个节点的左右两个子树的高度差的绝对值不超过1。
      */
+    private boolean result = true;
+
     public boolean isBalanced(TreeNode root) {
         maxBalancedDepth(root);
         return result;
     }
-
-    private boolean result = true;
 
     private int maxBalancedDepth(TreeNode root) {
         if (root == null)
@@ -160,5 +201,98 @@ public class TreeNodeS {
         } else {
             return false;
         }
+    }
+
+    /** BFS */
+    // 层平均值 https://leetcode.com/problems/average-of-levels-in-binary-tree/
+    public List<Double> averageOfLevels(TreeNode root) {
+        List<Double> ret = new ArrayList<>();
+        Queue<TreeNode> nodes = new LinkedList<>();
+        nodes.add(root);
+        while (!nodes.isEmpty()) {
+            int cnt = nodes.size();
+            double sum = 0;
+            for (int i = 0; i < cnt; i++) {
+                TreeNode temp = nodes.poll();
+                if (temp.left != null) {
+                    nodes.add(temp.left);
+                }
+                if (temp.right != null) {
+                    nodes.add(temp.right);
+                }
+                sum += temp.val;
+            }
+            ret.add(sum / cnt);
+        }
+        return ret;
+    }
+
+    // 最左侧节点值 https://leetcode.com/problems/find-bottom-left-tree-value/
+    public int findBottomLeftValue(TreeNode root) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        while(!queue.isEmpty()){
+            root = queue.poll();
+            if(root.right!=null) queue.add(root.right);
+            if(root.left!=null) queue.add(root.left);
+        }
+        return root.val;
+    }
+
+    // L-R之间的值 https://leetcode.com/problems/trim-a-binary-search-tree/
+    public TreeNode trimBST(TreeNode root, int L, int R) {
+        if(root == null) return null;
+        if(root.val < L) return trimBST(root.right, L, R);
+        if(root.val > R) return trimBST(root.left, L, R);
+        root.left = trimBST(root.left, L, R);
+        root.right = trimBST(root.right, L, R);
+        return root;
+    }
+
+    // 第k小的数 https://leetcode.com/problems/kth-smallest-element-in-a-bst/
+    public int kthSmallest(TreeNode root, int k) {
+        int cnt = count(root.left);
+        if(cnt == k-1) return root.val;
+        else if(cnt > k-1) return kthSmallest(root.left, k);
+        else return kthSmallest(root.right, k-cnt-1);
+    }
+
+    // 统计树的节点个数
+    private int count(TreeNode node) {
+        if(node == null) return 0;
+        return 1 + count(node.left) + count(node.right);
+    }
+
+    // 给定一个二叉搜索树（Binary Search Tree），把它转换成为累加树（Greater Tree)，使得每个节点的值是原来的节点值加上所有大于它的节点值之和。
+    // https://leetcode-cn.com/problems/convert-bst-to-greater-tree/
+    public int sum = 0;
+
+    public TreeNode convertBST(TreeNode root) {
+        rightSum(root);
+        return root;
+    }
+    // 从最右侧开始对每个节点的值进行求和
+    private void rightSum(TreeNode node) {
+        if(node == null) return;
+        rightSum(node.right);
+        sum += node.val;
+        node.val = sum;
+        rightSum(node.left);
+    }
+
+    // 二叉查找树的最近公共祖先 https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/
+    public TreeNode lowestCommonAncestorOfBin(TreeNode root, TreeNode p, TreeNode q) {
+        if(root.val > p.val && root.val > q.val) return lowestCommonAncestorOfBin(root.left, p, q);
+        if(root.val < p.val && root.val < q.val) return lowestCommonAncestorOfBin(root.right, p, q);
+        return root;
+    }
+
+    // 二叉树的最近公共祖先 https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root == null || root == p || root == q) return root;
+        TreeNode leftAnc = lowestCommonAncestor(root.left, p, q);
+        TreeNode rightAnc = lowestCommonAncestor(root.right, p, q);
+        if(leftAnc != null && rightAnc != null) return root;
+        return leftAnc == null ? rightAnc : leftAnc;
     }
 }

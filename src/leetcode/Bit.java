@@ -93,6 +93,10 @@ public class Bit {
         // 计算机中的原码反码和补码 https://blog.csdn.net/code_caq/article/details/68925861
         System.out.println(Integer.toBinaryString(Integer.MIN_VALUE));
         System.out.println(Integer.toBinaryString(Integer.MAX_VALUE));
+        System.out.println(5 << 1);
+        System.out.println(5 >> 1);
+        System.out.println(-5 << 1);
+        System.out.println(-5 >> 1);
         // System.out.println("判断奇偶：");
         // for (int i = -5; i < 5; i++) {
         //     System.out.println(i + "是偶数吗？" + isOven(i));
