@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 
 /**
  * ArrayLinkedList https://github.com/Snailclimb/JavaGuide/blob/master/docs/java/%E8%BF%99%E5%87%A0%E9%81%93Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E9%9D%A2%E8%AF%95%E9%A2%98%E5%87%A0%E4%B9%8E%E5%BF%85%E9%97%AE.md
@@ -54,19 +55,54 @@ public class ArrayLinkedList {
             System.out.println(i);
         }
     }
+
+    public static void testPriorityQueue() {
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        pq.add(5);pq.add(2);pq.add(4);pq.add(3);
+        System.out.println(pq.toString());
+        Iterator<Integer> it = pq.iterator();
+        while (it.hasNext()) {
+            System.out.print(it.next()+"\t");
+        }
+        System.out.println();
+        while (!pq.isEmpty()) {
+            System.out.print(pq.poll()+"\t");
+        }
+    }
+
+    public static void testPriorityQueue2() {
+        PriorityQueue<Integer> pq = new PriorityQueue<>(new Comparator<Integer>(){
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return o2.compareTo(o1);
+            }
+        
+        });
+        pq.add(5);pq.add(2);pq.add(4);pq.add(3);
+        Iterator<Integer> it = pq.iterator();
+        while (it.hasNext()) {
+            System.out.print(it.next()+"\t");
+        }
+        System.out.println();
+        System.out.println(pq.toString());
+        while (!pq.isEmpty()) {
+            System.out.print(pq.poll()+"\t");
+        }
+    }
     
     public static void main(String[] args) {
-        ArrayList<Integer> arrayList = new ArrayList<Integer>();
-        LinkedList<Integer> linkedList = new LinkedList<Integer>();
-        arrayList.add(1);
-        arrayList.add(2);
-        arrayList.add(3);
-        arrayList.add(4);
-        linkedList.add(1);
-        linkedList.add(2);
-        linkedList.add(3);
-        linkedList.add(4);
-        testArrayList(arrayList);
-        testLinkedList(linkedList);
+        testPriorityQueue();
+        // ArrayList<Integer> arrayList = new ArrayList<Integer>();
+        // LinkedList<Integer> linkedList = new LinkedList<Integer>();
+        // arrayList.add(1);
+        // arrayList.add(2);
+        // arrayList.add(3);
+        // arrayList.add(4);
+        // linkedList.add(1);
+        // linkedList.add(2);
+        // linkedList.add(3);
+        // linkedList.add(4);
+        // testArrayList(arrayList);
+        // testLinkedList(linkedList);
     }
 }
