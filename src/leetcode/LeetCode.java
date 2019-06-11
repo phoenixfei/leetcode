@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Stack;
 import java.util.Map;
 
 class Leetcode {
@@ -290,7 +291,39 @@ class Leetcode {
 
         return longestStreak;
     }
-    
+
+    /** 栈和队列问题 */
+    // 利用栈在遍历数组时，将数组中的元素记录下来
+    public int[] dailyTemperatures(int[] T) {
+        int len = T.length;
+        int[] ret = new int[len];
+        Stack<Integer> stack = new Stack<>();
+        for (int curIndex = 0; curIndex < len; curIndex++) {
+            while (!stack.isEmpty() && T[curIndex] > T[stack.peek()]) {
+                int preIndex = stack.pop();
+                ret[preIndex] = curIndex - preIndex;
+            }
+            stack.push(curIndex);
+        }
+        return ret;
+    }
+
+    // https://leetcode.com/problems/next-greater-element-ii
+    public int[] nextGreaterElements(int[] nums) {
+        int len = nums.length;
+        int[] ret = new int[len];
+        Arrays.fill(ret, -1);
+        Stack<Integer> stack = new Stack<>();
+        for (int i = 0; i < len*2; i++) {
+            int num = nums[i % len];
+            while(!stack.isEmpty() && num > nums[stack.peek()]){
+                ret[stack.pop()] = num;
+            }
+            if(i < len) stack.push(i);
+        }
+        return ret;
+    }
+
     public static void main(String[] args) {
         Leetcode leetcode = new Leetcode();
         int[] nums = { -3, -2, 5, 7 };

@@ -6,6 +6,8 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.Stack;
 
 /**
  * ArrayLinkedList https://github.com/Snailclimb/JavaGuide/blob/master/docs/java/%E8%BF%99%E5%87%A0%E9%81%93Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E9%9D%A2%E8%AF%95%E9%A2%98%E5%87%A0%E4%B9%8E%E5%BF%85%E9%97%AE.md
@@ -32,6 +34,7 @@ public class ArrayLinkedList {
         });
         System.out.println(arrayList);
     }
+
     public static void testLinkedList(LinkedList<Integer> linkedList) {
         System.out.println(linkedList.get(1));
         Collections.sort(linkedList, new Comparator<Integer>() {
@@ -88,6 +91,17 @@ public class ArrayLinkedList {
         while (!pq.isEmpty()) {
             System.out.print(pq.poll()+"\t");
         }
+    }
+
+    public static void testStack(){
+        Stack<Integer> stack = new Stack<>();
+        Queue<Integer> queue = new LinkedList<>();
+        stack.add(1); stack.push(2); // 添加元素
+        queue.add(1); queue.offer(2);
+        stack.isEmpty(); queue.isEmpty(); // 判空
+        stack.pop(); queue.poll(); // 取出栈顶元素
+        stack.peek(); queue.peek(); // 查看栈顶元素
+        stack.size(); queue.size(); // 查看元素个数
     }
     
     public static void main(String[] args) {
