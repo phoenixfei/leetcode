@@ -1,6 +1,8 @@
 package leetcode;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.PriorityQueue;
 
 /**
@@ -198,7 +200,7 @@ public class Sorting {
         }
         return arr[k-1];
     }
-    // quickSelect
+    // 利用quickSelect解决topk问题
     private static int quickSelect(int[] arr, int k, int left, int right) {
         if(left == right) return arr[left];
         int position = position(arr, left, right);
@@ -218,13 +220,123 @@ public class Sorting {
         swap(arr, position, left);
         return position;
     }
+    
+    // 计数排序
+    public static void counting(int[] arr) {
+        // 获取最大最小值
+        int max = arr[0], min = arr[0];
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] > max) max = arr[i];
+            if (arr[i] < min) min = arr[i];
+        }
+        // 创建计数数组C，并进行计数操作
+        int[] c = new int[max-min+1];
+        for (int i = 0; i < arr.length; i++) {
+            c[ arr[i] - min ] ++ ;
+        }
+        // 反向填充目标数组
+        int cnt = 0;
+        for (int i = 0; i < c.length; i++) {
+            while (c[i] != 0) {
+                arr[cnt++] = i + min;
+                c[i] -- ;
+            }
+        }
+    }
+    // 桶排序
+    public static void bucket(int[] arr) {
+        // 1. 求最大值，用于求最大值的位数
+        int max = arr[0], min = arr[0];
+        for (int i = 0; i < arr.length; i++) {
+            max = Math.max(max, arr[i]);
+            min = Math.min(min, arr[i]);
+        }
+        // 2. 设置桶
+        int bucketNum = max / 10 - min / 10 + 1; // 数量，映射函数
+        // 创建桶
+        List<List<Integer>> buckets = new ArrayList<>();
+        for (int i = 0; i < bucketNum; i++) {
+            buckets.add(new ArrayList<Integer>());
+        }
+        // 放入元素
+        for (int i = 0; i < arr.length; i++) {
+            buckets.get(arr[i] / 10 - min / 10).add(arr[i]);
+        }
+        // 3. 对每个非空桶中元素进行排序
+        int index = 0; // 4. 赋值给arr
+        List<Integer> bucket = new ArrayList<>();
+        for (int i = 0; i < bucketNum; i++) {
+            bucket = buckets.get(i);
+            if(bucket.size() != 0){
+                insertSort(bucket);
+                for (int j = 0; j < bucket.size(); j++) {
+                    arr[index++] = bucket.get(j);
+                }
+            }
+        }
+    }
+    // 对每个非空桶中元素进行排序
+    private static void insertSort(List<Integer> list) {
+        for (int i = 1; i < list.size(); i++) {
+            int cur = list.get(i);
+            int pre = i;
+            while (pre > 0 && cur < list.get(pre-1)) {
+                list.set(pre, list.get(--pre));
+            }
+            list.set(pre, cur);
+        }
+    }
+
+    // 基排序
+    public static void radix(int[] arr) {
+        int mod = 10, dev = 1; // 用于求每位的值
+        // 求最大值，用于求最大值的位数
+        int max = arr[0];
+        for (int i = 1; i < arr.length; i++) {
+            max = Math.max(max, arr[i]);
+        }
+        int maxDigit = 1; // 最大位数
+        while (max > mod) {
+            max /= 10;
+            maxDigit ++ ;
+        }
+        // 对每一位进行排序
+        for (int i = 0; i < maxDigit; i++, dev *= 10) {
+            // 采用计数排序
+            int[] cnt = new int[10];
+            // 计数排序的第二种方法，利用新的数组记录arr值
+            int[] temp = new int[arr.length]; 
+            for (int j = 0; j < arr.length; j++) {
+                int cn = (arr[j] / dev) % mod;
+                cnt[cn] ++ ;
+            }
+            for (int j = 1; j < cnt.length; j++) {
+                cnt[j] += cnt[j-1];
+            } // 从小到大
+            // for (int j = cnt.length-2; j >=0; --j) {
+            //     cnt[j] += cnt[j+1];
+            // } // 从大到小
+            for (int j = arr.length-1; j >= 0; --j) {
+                temp[-- cnt[(arr[j] / dev) % mod]] = arr[j];
+            } // 必须从后往前遍历，记录第一轮顺序
+            // 将temp赋值给arr
+            for (int j = 0; j < arr.length; j++) {
+                arr[j] = temp[j];
+            }
+        }
+    }
 
     public static void main(String[] args) {
         int[] arr = { 3, 44, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48 };
-        System.out.println(topk(arr, 5));
-        System.out.println(topk2(arr, 4));
-        System.out.println(topk3(arr, 4));
-        System.out.println(topk4(arr, 12));
+        System.out.println(Arrays.toString(arr));
+        // radix(arr);
+        bubble(arr);
+        // counting(arr);
+
+        // System.out.println(topk(arr, 5));
+        // System.out.println(topk2(arr, 4));
+        // System.out.println(topk3(arr, 4));
+        // System.out.println(topk4(arr, 12));
         
         // int[] temp = new int[arr.length];
         // insertion(arr);
@@ -232,7 +344,7 @@ public class Sorting {
         // selection(arr);
         // System.out.println(Arrays.toString(arr));
         // quick(arr, 0, arr.length);
-        heap(arr);
+        // heap(arr);
         // merge(arr, temp, 0, arr.length);
         System.out.println(Arrays.toString(arr));
     }

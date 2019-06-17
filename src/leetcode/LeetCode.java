@@ -324,6 +324,33 @@ class Leetcode {
         return ret;
     }
 
+    // https://leetcode-cn.com/problems/valid-anagram/
+    public boolean isAnagram(String s, String t) {
+        int[] cnt = new int[26];
+        for (char ch : s.toCharArray()) {
+            cnt[ch-'a'] ++ ;
+        }
+        for (char ch : t.toCharArray()) {
+            cnt[ch-'a'] -- ;
+        }
+        for (int cn : cnt) {
+            if(cn != 0) return false;
+        }
+        return true;
+    }
+    // https://leetcode-cn.com/problems/isomorphic-strings/
+    public boolean isIsomorphic(String s, String t) {
+        int[] cntS = new int[256];
+        int[] cntT = new int[256];
+        for (int i = 0; i < s.length(); i++) {
+            char chs = s.charAt(i), cht = t.charAt(i);
+            if(cntS[chs] != cntT[cht]) return false;
+            cntS[chs] = i + 1; // 避免第一个和第二个字符出现错误
+            cntT[cht] = i + 1; // eeg与add
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
         Leetcode leetcode = new Leetcode();
         int[] nums = { -3, -2, 5, 7 };

@@ -82,9 +82,38 @@ public class Basis {
         System.out.println(arr[j++]);
         System.out.println(j);
     }
+
+    public static void testStr() {
+        String str = "hello world";
+        System.out.println(str.indexOf("l"));
+        System.out.println(str.charAt(6));
+        System.out.println(str.replace("h", "H"));
+        System.out.println(str.toCharArray().length);
+        System.out.println("a".compareTo("b"));
+        String s1 = "aaa";
+        String s2 = new String("aaa");
+        String s22 = s1.intern();
+        System.out.println(s1==s2);
+        System.out.println(s1.equals(s2));
+        System.out.println(s1==s22);
+        String a1 = "123";
+        String b1 = "123";
+        System.out.println(a1 == b1); // true
+        String a2 = a1.intern();
+        String b2 = b1.intern();
+        System.out.println(a2==b2);
+        // leetcode
+        String[] strs = {"i", "am", "a", "student"};
+        StringBuilder sb = new StringBuilder(strs[0]);
+        for (int i = 1; i < strs.length; i++) {
+            sb.append(" "+strs[i]);
+        }
+        System.out.println(sb.toString());
+    }
     public static void main(String[] args) {
+        testStr();
         // initArr();
-        addEqu();
+        // addEqu();
         // swap(15, 1);
         // swap2(15, 1);
         // swap3(15, 1);
