@@ -20,16 +20,28 @@ public class BinarySearch {
      * 即最完美结果，也是官方推荐：mid = left + (right - left) >> 2;
      */
     public static int binarySearch(int[] arr, int key) {
-        int left = 0, mid = 0, right = arr.length-1;
+        int left = 0, mid = 0, right = arr.length - 1;
         while(left <= right){
             mid = (right + left) / 2;
             if(arr[mid] == key) return mid;
             else if(arr[mid] < key) left = mid + 1;
-            else right = mid - 1;
+            else if(arr[mid] > key) right = mid - 1;
         }
-        return -1;
-        // return left;
+        if (arr[left] == key) return left;
+        else return -1;
     }
+
+    public static int binarySearch2(int[] arr, int key) {
+        int left = 0, mid = 0, right = arr.length;
+        while(left < right){
+            mid = (right + left) / 2;
+            if(arr[mid] < key) left = mid + 1;
+            else right = mid;
+        }
+        if (arr[left] == key) return left;
+        else return -1;
+    }
+
     /**
      * 变种：在一个有重复元素的区间中查找key，返回最左边的位置
      * 该实现与正常实现有以下不同：
@@ -47,8 +59,26 @@ public class BinarySearch {
             if(arr[mid] >= key) right = mid;
             else left = mid + 1;
         }
-        return left;
+        return arr[left] == key ? left : -1;
     }
+
+    public static int binarySearchR(int[] nums, int target) {
+        if (nums.length == 0) return -1;
+        int left = 0, right = nums.length;
+    
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (nums[mid] == target) {
+                left = mid + 1; // 注意
+            } else if (nums[mid] < target) {
+                left = mid + 1;
+            } else if (nums[mid] > target) {
+                right = mid;
+            }
+        }
+        return left - 1; // 注意
+    }
+
     // https://leetcode.com/problems/sqrtx/
     public int mySqrt(int x) {
         if(x<=1) return x;
@@ -63,6 +93,7 @@ public class BinarySearch {
         }
         return h;
     }
+
     // https://leetcode.com/problems/find-smallest-letter-greater-than-target/
     public char nextGreatestLetter(char[] letters, char target) {
         int left = 0, mid = 0, right = letters.length - 1;
@@ -74,10 +105,25 @@ public class BinarySearch {
         if(left >= letters.length) return letters[0];
         return letters[left]; 
     }
+
+    // https://leetcode-cn.com/problems/single-element-in-a-sorted-array/
+    public int singleNonDuplicate(int[] nums) {
+        int left = 0, right = nums.length - 1; 
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if ( mid % 2 == 1) mid --;
+            if ( nums[mid] == nums[mid + 1]) left = mid + 2;
+            else right = mid;
+        }
+        return nums[left];
+    }
+
     public static void main(String[] args) {
-        int[] arr = {2, 2, 3, 4, 5, 5, 15, 19, 26, 27, 36, 38, 44, 46, 47, 48, 50};
+        int[] arr = {0, 1, 1, 2, 2, 3, 3, 4, 6, 9};
         int key = 1;
-        System.out.println(binarySearch(arr, key));
-        System.out.println(binarySearchL(arr, key));
+        // System.out.println(binarySearch(arr, key));
+        // System.out.println(binarySearch2(arr, key));
+        System.out.println(binarySearchR(arr, key));
+        // System.out.println(binarySearchL(arr, key));
     }
 }

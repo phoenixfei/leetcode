@@ -4,7 +4,9 @@ package leetcode;
  * TrieNode
  * 数据结构Trie(prefix tree)
  */
-public class TrieNode {
+// 题1：https://leetcode.com/problems/implement-trie-prefix-tree/
+/** 方法1 
+class TrieNode {
 
     private TrieNode[] links; // 指向子节点
 
@@ -88,4 +90,125 @@ class Trie {
         return node != null;
     }
     
+}
+
+*/
+
+// 利用简单的关联数组实现Trie树
+/*
+class TrieNode {
+    TrieNode[] links = new TrieNode[26];
+    boolean isleaf  = false;
+}
+
+class Trie {
+
+    TrieNode root;
+
+    Trie () {
+        root = new TrieNode();
+    }
+
+    // 实现插入方法
+    public void insert(String word) {
+        insert(word, root);
+    }
+
+    public void insert(String word, TrieNode node) {
+        if (node == null) {
+            return;
+        }
+        if (word.length() == 0) {
+            node.isleaf = true;
+            return;
+        }
+        int index = word.charAt(0) - 'a';
+        if (node.links[index] == null) {
+            node.links[index] = new TrieNode();
+        }
+        insert(word.substring(1), node.links[index]);
+    }
+
+    // 实现 查找 功能
+    public boolean search(String word) {
+        return search(word, root);
+    }
+
+    private boolean search(String word, TrieNode node) {
+        if (node == null) {
+            return false;
+        }
+        if (word.length() == 0) return node.isleaf;
+        int index = word.charAt(0) - 'a';
+        return search(word.substring(1), node.links[index]);
+    }
+
+    // Returns if there is any word in the trie that starts with the given prefix.
+    public boolean startsWith(String prefix) {
+        return startsWith(prefix, root);
+    }
+
+    private boolean startsWith(String prefix, TrieNode node) {
+        if (node == null) {
+            return false;
+        }
+        if (prefix.length() == 0) return true;
+        int index = prefix.charAt(0) - 'a';
+        return startsWith(prefix.substring(1), node.links[index]);
+    }
+}
+*/
+
+// 题2：https://leetcode-cn.com/problems/map-sum-pairs/
+// 关联数组
+class TrieNode {
+    TrieNode[] links = new TrieNode[26]; 
+    int val;
+}
+
+class MapSum {
+
+    private TrieNode root;
+
+    public MapSum() {
+        root = new TrieNode();
+    }
+
+    public void insert(String key, int val) {
+        insert(key, val, root);
+    }
+
+    private void insert(String key, int val, TrieNode node) {
+        if (node == null) {
+            return;
+        }
+        if (key.length() == 0) {
+            node.val = val;
+            return;
+        }
+        int index = key.charAt(0) - 'a';
+        if (node.links[index] == null) {
+            node.links[index] = new TrieNode();
+        }
+        insert(key.substring(1), val, node.links[index]);
+    }
+    
+    public int sum(String prefix) {
+        return sum(prefix, root);
+    }
+
+    private int sum(String prefix, TrieNode node) {
+        if (node == null) {
+            return 0;
+        }
+        if (prefix.length() != 0) {
+            int index = prefix.charAt(0) - 'a';
+            return sum(prefix.substring(1), node.links[index]);
+        }
+        int sum = node.val;
+        for (TrieNode child : node.links) {
+            sum += sum(prefix, child);
+        }
+        return sum;
+    }
 }
