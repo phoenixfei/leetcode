@@ -112,6 +112,11 @@ public class Basis {
     }
     public static void main(String[] args) {
         testStr();
+
+        // Integer.parseInt(s);
+        // Integer.toString(i);
+        // double d = (double)f;
+
         // initArr();
         // addEqu();
         // swap(15, 1);

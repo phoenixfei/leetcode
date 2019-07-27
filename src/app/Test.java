@@ -1,5 +1,4 @@
 package app;
-import app.FinalClass;
 /**
  * Test
  */
