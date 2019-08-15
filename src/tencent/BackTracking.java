@@ -13,46 +13,112 @@ import java.util.List;
  * 
  */
 public class BackTracking {
-
-    // https://leetcode.com/problems/subsets/
-    public List<List<Integer>> subsets(int[] nums) {
+    /* https://leetcode.com/problems/subsets/discuss/27281/ */
+    // 1. 子集
+    public static List<List<Integer>> subsets(int[] nums) {
         List<List<Integer>> ret = new ArrayList<>();
-        subsetsBackTracking(ret, new ArrayList<Integer>(), nums, 0);
+        ArrayList<Integer> temp = new ArrayList<>();
+        addSets(ret, temp, nums, 0);
         return ret;
     }
-    private void subsetsBackTracking(List<List<Integer>> list, ArrayList<Integer> temp, int[] nums, int start) {
-        list.add(new ArrayList<>(temp));
-        for (int i = start; i < nums.length; i++) {
+    private static void addSets(List<List<Integer>> ret, List<Integer> temp, int[] nums, int start){
+        ret.add(new ArrayList<>(temp));
+        // System.out.println(ret.toString());
+        for(int i = start; i < nums.length; i++){
             temp.add(nums[i]);
-            subsetsBackTracking(list, temp, nums, i+1);
-            temp.remove(temp.size()-1);
+            System.out.println(temp.toString());
+            addSets(ret, temp, nums, i+1);
+            temp.remove(temp.size() - 1);
         }
     }
-
+    // 2. 全排列
     public List<List<Integer>> permute(int[] nums) {
         List<List<Integer>> ret = new ArrayList<>();
-        int[] count = new int[nums.length];
         List<Integer> temp = new ArrayList<>();
-        permuteBackTracking(ret, temp, nums, count);
+        permuteBackTracking(ret, temp, nums);
         return ret;
     }
-    private void permuteBackTracking(List<List<Integer>> ret, List<Integer> temp, int[] nums, int[] count) {
-        if(temp.size() == nums.length) ret.add(new ArrayList<>(temp));
-        else{
-            for (int i = 0; i < count.length; i++) {
-                if(count[i]==0){
-                    if(temp.contains(nums[i])) continue;
-                    temp.add(nums[i]);
-                    count[i] = 1;
-                    permuteBackTracking(ret, temp, nums, count);
-                    temp.remove(temp.size()-1);
-                    Arrays.fill(count, 0);
+    private void permuteBackTracking(List<List<Integer>> ret, List<Integer> temp, int[] nums) {
+        if(temp.size() == nums.length) {
+            ret.add(new ArrayList<>(temp));
+        }else{
+            for (int i = 0; i < nums.length; i++) {
+                if(temp.contains(nums[i])) continue;
+                temp.add(nums[i]);
+                permuteBackTracking(ret, temp, nums);
+                temp.remove(temp.size()-1);
+            }
+        }
+    }
+    // 3. 组合总和
+    public List<List<Integer>> combinationSum(int[] nums, int target) {
+        List<List<Integer>> list = new ArrayList<>();
+        Arrays.sort(nums);
+        backtrack(list, new ArrayList<>(), nums, target, 0);
+        return list;
+    }
+    private void backtrack(List<List<Integer>> list, List<Integer> tempList, int [] nums, int remain, int start){
+        if(remain < 0) return;
+        else if(remain == 0) list.add(new ArrayList<>(tempList));
+        else{ 
+            for(int i = start; i < nums.length; i++){
+                tempList.add(nums[i]);
+                // not i + 1 because we can reuse same elements
+                backtrack(list, tempList, nums, remain - nums[i], i); 
+                tempList.remove(tempList.size() - 1);
+            }
+        }
+    }
+    // 4. 
+    public List<List<String>> partition(String s) {
+        List<List<String>> ret = new ArrayList<>();
+        List<String> temp = new ArrayList<>();
+        subPartition(ret, temp, s, 0);
+        return ret;
+    }
+    private void subPartition(List<List<String>> ret, List<String> temp, String s, int start){
+        if(start == s.length()){
+            ret.add(new ArrayList<>(temp));
+        }else{
+            for(int i = start; i < s.length(); i++){
+                if(isPalindrome(s, start, i)){
+                    temp.add(s.substring(start, i+1));
+                    subPartition(ret, temp, s, i+1);
+                    temp.remove(temp.size() - 1);
                 }
             }
         }
     }
-
+    private boolean isPalindrome(String s, int start, int end){
+        if(start > end) return false;
+        while(start <= end){
+            if(s.charAt(start++) != s.charAt(end--)){
+                return false;
+            }
+        }
+        return true;
+    }
+    // https://leetcode.com/problems/generate-parentheses/
+    public List<String> generateParenthesis(int n) {
+        List<String> ret = new ArrayList<String>();
+        backTrackParenthesis(ret, "", 0, 0, n);
+        return ret;
+    }
+    private void backTrackParenthesis(List<String> ret, String cur, int left, int right, int max){
+        if(cur.length() == (max << 1)){
+            ret.add(cur);
+            return;
+        }
+        if(left < max){
+            // cur += "("; 错误，因为无法回溯
+            // 利用cur+"("，产生新的字符串，后续再使用cur时，即相当于回溯
+            backTrackParenthesis(ret, cur+"(", left+1, right, max);
+        }
+        if(right < left){            
+            backTrackParenthesis(ret, cur+")", left, right+1, max);
+        }
+    }    
     public static void main(String[] args) {
-        
+        subsets(new int[]{1,2,3});
     }
 }

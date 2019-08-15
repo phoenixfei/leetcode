@@ -127,6 +127,49 @@ public class SortAndSearch {
         }
         return max;
     }
+    // https://leetcode.com/problems/search-in-rotated-sorted-array/
+    public int search(int[] nums, int target) {
+        if(nums == null || nums.length == 0) return -1;
+        int len = nums.length;
+        int left = 0, right = len - 1;
+        while(left <= right) {
+            int mid = left + (right - left) / 2;
+            if(nums[mid] == target) return mid;
+            if(nums[mid] >= nums[left]){
+                if(target >= nums[left] && target < nums[mid]){
+                    right = mid - 1;
+                }else{
+                    left = mid + 1;
+                }
+            }else{
+                if(target > nums[mid] && target <= nums[right]){
+                    left = mid + 1;
+                }else{
+                    right = mid - 1;
+                }
+            }
+        }
+        return -1;
+    }
+    /* https://leetcode.com/problems/binary-tree-maximum-path-sum/discuss/39775/Accepted-short-solution-in-Java
+    The second maxValue contains the bigger between the left sub-tree and right sub-tree.
+    if (left + right + node.val < maxValue ) then the result will not include the parent node which means the maximum path is in the left branch or right branch.
+    */
+    private int max = Integer.MIN_VALUE;
+    
+    public int maxPathSum(TreeNode root) {   
+        maxPathDown(root);
+        return max; 
+    }
+    
+    private int maxPathDown(TreeNode root){
+        if(root == null) return 0;
+        int leftVal = Math.max(0, maxPathDown(root.left));
+        int rightVal = Math.max(0, maxPathDown(root.right));
+        max = Math.max(max, leftVal + rightVal + root.val);
+        return Math.max(leftVal, rightVal) + root.val;
+    }
+
     public int maxDepthByRecursion(TreeNode root) {
         if(root == null) return 0;
         return 1 + Math.max(maxDepthByRecursion(root.left), maxDepthByRecursion(root.right));

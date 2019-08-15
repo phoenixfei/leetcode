@@ -87,4 +87,42 @@ public class LinkedList {
         node.val = node.next.val;
         node.next = node.next.next;
     }
+    // https://leetcode.com/problems/rotate-list/
+    public ListNode rotateRight(ListNode head, int k) {
+        if(head == null) return null;
+        int size = 1;
+        ListNode fast = head;
+        ListNode slow = head;
+        while(fast.next != null){
+            size ++;
+            fast = fast.next;
+        }
+        for(int i = size - k % size; i > 1; i--){
+            slow = slow.next;
+        }
+        // The basic idea is to link the tail of the list with the head, make it a cycle. Then count to the rotate point and cut it.        
+        fast.next = head;
+        head = slow.next;
+        slow.next = null;
+        return head;
+    }
+    /* https://leetcode-cn.com/problems/linked-list-cycle-ii/
+     Let the distance from the first node to the the node where cycle begins be A, and let say the slow pointer travels travels A+B. The fast pointer must travel 2A+2B to catch up. The cycle size is N. Full cycle is also how much more fast pointer has traveled than slow pointer at meeting point.
+     */
+    public ListNode detectCycle(ListNode head) {
+        ListNode slow = head, fast = head;
+        while( fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;            
+            if( slow == fast ){
+                ListNode start = head;
+                while( start != slow ){
+                    start = start.next;
+                    slow = slow.next;
+                }
+                return slow;
+            }
+        }
+        return null;
+    }
 }
