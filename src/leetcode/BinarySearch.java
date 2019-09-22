@@ -32,6 +32,7 @@ public class BinarySearch {
     }
 
     public static int binarySearch2(int[] arr, int key) {
+        // right = arr.length - 1; 也行
         int left = 0, mid = 0, right = arr.length;
         while(left < right){
             mid = (right + left) / 2;
@@ -53,6 +54,7 @@ public class BinarySearch {
      * @return 返回最左边的位置
      */
     public static int binarySearchL(int[] arr, int key) {
+        // right = arr.length也行
         int left = 0, mid = 0, right = arr.length - 1;
         while (left < right) {
             mid = left + (right - left) / 2;
@@ -64,6 +66,7 @@ public class BinarySearch {
 
     public static int binarySearchR(int[] nums, int target) {
         if (nums.length == 0) return -1;
+        // 必须right = nums.length；因为返回left - 1，若target为最后一个元素
         int left = 0, right = nums.length;
     
         while (left < right) {
@@ -119,11 +122,11 @@ public class BinarySearch {
     }
 
     public static void main(String[] args) {
-        int[] arr = {0, 1, 1, 2, 2, 3, 3, 4, 6, 9};
+        int[] arr = {0, 0, 1, 1, 2, 2, 3, 3, 4, 6, 9};
         int key = 1;
         // System.out.println(binarySearch(arr, key));
-        // System.out.println(binarySearch2(arr, key));
-        System.out.println(binarySearchR(arr, key));
+        System.out.println(binarySearch2(arr, key));
         // System.out.println(binarySearchL(arr, key));
+        // System.out.println(binarySearchR(arr, key));
     }
 }

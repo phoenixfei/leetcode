@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.Stack;
+import java.util.TreeSet;
 import java.util.Map;
+import java.util.Queue;
 
 class Leetcode {
     // https://leetcode.com/problems/container-with-most-water/
@@ -28,8 +31,7 @@ class Leetcode {
     // https://leetcode.com/problems/3sum/
     // 1.如果数据有重复，结果不需要重复，可以先进行排序；2.尽量不要多用for循环嵌套；3.两个指针左右开弓
     public List<List<Integer>> threeSum(int[] nums) {
-        Arrays.sort(nums);
-        int length = nums.length;
+        Arrays.sort(nums);int length = nums.length;
         List<List<Integer>> result = new ArrayList<List<Integer>>();
         for (int i = 0; i < length - 2; i++) {
             int target = -nums[i], l = i + 1, r = length - 1;
@@ -350,7 +352,36 @@ class Leetcode {
         }
         return true;
     }
-
+    // https://leetcode-cn.com/problems/third-maximum-number/
+    public int thirdMax(int[] nums) {
+        TreeSet<Integer> set = new TreeSet<>();
+        for(int i = 0; i < nums.length; i++){
+            set.add(nums[i]);
+            if(set.size() > 3) set.pollFirst();
+        }
+        return set.size() == 3 ? set.first() : set.last();
+    }
+    // https://leetcode-cn.com/problems/n-ary-tree-level-order-traversal/
+    public List<List<Integer>> levelOrder(Node root) {
+        List<List<Integer>> res = new ArrayList<>();
+        if(root == null) return res;
+        Queue<Node> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int count = queue.size();
+            List<Integer> temp = new ArrayList<>();
+            Node curNode = null;
+            for (int i = 0; i < count; i++) {
+                curNode = queue.poll();
+                temp.add(curNode.val);
+                for (Node child : curNode.children) {
+                    queue.offer(child);
+                }
+            }
+            res.add(temp);
+        }
+        return res; 
+    }
     public static void main(String[] args) {
         Leetcode leetcode = new Leetcode();
         int[] nums = { -3, -2, 5, 7 };

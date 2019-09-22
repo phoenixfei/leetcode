@@ -3,6 +3,7 @@ package leetcode;
 /**
  * Queen https://blog.csdn.net/microopithecus/article/details/83832392
  * 行：row；列：column；
+ https://mp.weixin.qq.com/s?__biz=MzU0MDg5OTYyOQ==&mid=2247483841&idx=1&sn=9819393f9142892312fa3aeba173c879&chksm=fb336183cc44e895b7e7a29ec52f2504a1a6aa925655bcf129f1c215a376fa67c302d747f253&mpshare=1&scene=24&srcid=0610K1pWllJUFk6b6yjbHIOK&key=7009efb4b025cbdb4d86de24275e5ad4ad2ff94ace7f90be9e1aae460295140781a24361b96e529bb8fd1eb1e91289535f76f84cf10bfe88c5c3d1dea1ab57f62325f43e2f37088538866f63872ff3e1&ascene=14&uin=NzE2Mjc2MDE2&devicetype=Windows+8&version=62060833&lang=zh_CN&pass_ticket=CgrODookre1tuVBq%2FTcRpm8oVkH3ZgMrqS%2FmfLmy4zjSfPvvK%2BaqcqiLkmZBUe%2F2
  */
 class Queen {
 

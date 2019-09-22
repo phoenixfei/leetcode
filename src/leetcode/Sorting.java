@@ -41,7 +41,7 @@ public class Sorting {
             current = arr[i]; // 必须记录下当前值
             pre_index = i;
             // 注意while循环中两个判断的位置
-            while (pre_index > 0 && current < arr[pre_index - 1]) {
+            while (pre_index - 1 >= 0 && current < arr[pre_index - 1]) {
                 // 写法帅气
                 arr[pre_index] = arr[--pre_index];
             }
@@ -330,7 +330,7 @@ public class Sorting {
         int[] arr = { 3, 44, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48 };
         System.out.println(Arrays.toString(arr));
         // radix(arr);
-        bubble(arr);
+        // bubble(arr);
         // counting(arr);
 
         // System.out.println(topk(arr, 5));
@@ -340,7 +340,7 @@ public class Sorting {
         
         // int[] temp = new int[arr.length];
         // insertion(arr);
-        // shell(arr);
+        shell(arr);
         // selection(arr);
         // System.out.println(Arrays.toString(arr));
         // quick(arr, 0, arr.length);
